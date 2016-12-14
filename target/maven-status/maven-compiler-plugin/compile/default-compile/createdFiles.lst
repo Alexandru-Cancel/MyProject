@@ -1,0 +1,5 @@
+com\example\WebSecurityConfig.class
+com\example\MvcConfig.class
+com\example\UserRepository.class
+com\example\Application.class
+com\example\User.class
