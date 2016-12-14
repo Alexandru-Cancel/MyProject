@@ -1,5 +1,8 @@
 D:\Projects\MyProject\src\main\java\com\example\MvcConfig.java
+D:\Projects\MyProject\src\main\java\com\example\MyUserDetailsService.java
 D:\Projects\MyProject\src\main\java\com\example\WebSecurityConfig.java
 D:\Projects\MyProject\src\main\java\com\example\UserRepository.java
 D:\Projects\MyProject\src\main\java\com\example\Application.java
+D:\Projects\MyProject\src\main\java\com\example\Role.java
+D:\Projects\MyProject\src\main\java\com\example\RoleRepository.java
 D:\Projects\MyProject\src\main\java\com\example\User.java

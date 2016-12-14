@@ -1,54 +1,37 @@
 package com.example;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SpringBootApplication
 public class Application {
 
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static Logger logger = LogManager.getLogger("Application.class");
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
     }
 
     @Bean
-    public CommandLineRunner demo(UserRepository repository) {
+    public CommandLineRunner demo(UserRepository userRepository, RoleRepository roleRepository) {
         return (args) -> {
-            // save a couple of customers
-            repository.save(new User("Jack", "Bauer"));
-            repository.save(new User("Chloe", "O'Brian"));
-            repository.save(new User("Kim", "Bauer"));
-            repository.save(new User("David", "Palmer"));
-            repository.save(new User("Michelle", "Dessler"));
+            // save a couple of users
+            Role adminRole = new Role("ADMIN");
+            Role userRole = new Role("USER");
+            roleRepository.save(adminRole);
+            roleRepository.save(userRole);
 
-            // fetch all customers
-            log.info("Customers found with findAll():");
-            log.info("-------------------------------");
-            for (User customer : repository.findAll()) {
-                log.info(customer.toString());
-            }
-            log.info("");
+            userRepository.save(new User("admin", "a", Arrays.asList(adminRole)));
+            userRepository.save(new User("user1", "1", Arrays.asList(userRole)));
+            userRepository.save(new User("user2", "2", Arrays.asList(userRole)));
 
-            // fetch an individual customer by ID
-            User customer = repository.findOne(1L);
-            log.info("Customer found with findOne(1L):");
-            log.info("--------------------------------");
-            log.info(customer.toString());
-            log.info("");
-
-            // fetch customers by last name
-            log.info("Customer found with findByLastName('Bauer'):");
-            log.info("--------------------------------------------");
-            for (User bauer : repository.findByName("Bauer")) {
-                log.info(bauer.toString());
-            }
-            log.info("");
         };
     }
 
