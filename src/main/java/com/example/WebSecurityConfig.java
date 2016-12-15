@@ -16,19 +16,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserRepository userRepository;
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/console/**").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/user").access("hasRole('USER') or hasRole('ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage("/login").permitAll().successHandler(myAuthenticationSuccessHandler)
                 .and()
-                .logout().permitAll();
+                .logout().logoutSuccessUrl("/home").permitAll();
         http.csrf().disable();
         http.headers().frameOptions().disable();
 
@@ -36,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceBean());
+        auth.userDetailsService(myUserDetailsService);
     }
 
     @Bean
@@ -44,10 +49,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
         registration.addUrlMappings("/console/*");
         return registration;
-    }
-
-    @Override
-    public UserDetailsService userDetailsServiceBean() {
-        return new MyUserDetailsService(userRepository);
     }
 }

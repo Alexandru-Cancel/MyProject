@@ -1,8 +1,9 @@
 com\example\Role.class
-com\example\WebSecurityConfig.class
 com\example\MvcConfig.class
 com\example\MyUserDetailsService.class
 com\example\UserRepository.class
 com\example\Application.class
 com\example\User.class
+com\example\MyAuthenticationSuccessHandler.class
 com\example\RoleRepository.class
+com\example\WebSecurityConfig.class

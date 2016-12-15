@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
-import java.util.List;
 
 @SpringBootApplication
 public class Application {
@@ -23,8 +22,8 @@ public class Application {
     public CommandLineRunner demo(UserRepository userRepository, RoleRepository roleRepository) {
         return (args) -> {
             // save a couple of users
-            Role adminRole = new Role("ADMIN");
-            Role userRole = new Role("USER");
+            Role adminRole = new Role("ROLE_ADMIN");
+            Role userRole = new Role("ROLE_USER");
             roleRepository.save(adminRole);
             roleRepository.save(userRole);
 
